@@ -18,25 +18,25 @@ import type {
   NavigationTabRouterConfig,
 } from '../TypeDefinition';
 
-export type DrawerNavigatorConfig =
-  & { containerConfig?: void }
-  & NavigationTabRouterConfig
-  & DrawerViewConfig;
+export type DrawerNavigatorConfig = {
+  containerConfig?: void,
+} & NavigationTabRouterConfig &
+  DrawerViewConfig;
 
 const DefaultDrawerConfig = {
   /*
    * Default drawer width is screen width - header width
    * https://material.io/guidelines/patterns/navigation-drawer.html
    */
-  drawerWidth: Dimensions.get('window').width -
-    (Platform.OS === 'android' ? 56 : 64),
+  drawerWidth:
+    Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64),
   contentComponent: DrawerItems,
   drawerPosition: 'left',
 };
 
 const DrawerNavigator = (
   routeConfigs: NavigationRouteConfigMap,
-  config: DrawerNavigatorConfig,
+  config: DrawerNavigatorConfig
 ) => {
   const mergedConfig = { ...DefaultDrawerConfig, ...config };
   const {
@@ -57,7 +57,7 @@ const DrawerNavigator = (
           contentRouter,
           routeConfigs,
           config,
-          NavigatorTypes.DRAWER,
+          NavigatorTypes.DRAWER
         )((props: *) => <DrawerScreen {...props} />),
       },
       DrawerOpen: {
@@ -66,15 +66,15 @@ const DrawerNavigator = (
     },
     {
       initialRouteName: 'DrawerClose',
-    },
+    }
   );
 
   const navigator = createNavigator(
     drawerRouter,
     routeConfigs,
     config,
-    NavigatorTypes.DRAWER,
-  )((props: *) => (
+    NavigatorTypes.DRAWER
+  )((props: *) =>
     <DrawerView
       {...props}
       drawerWidth={drawerWidth}
@@ -82,9 +82,9 @@ const DrawerNavigator = (
       contentOptions={contentOptions}
       drawerPosition={drawerPosition}
     />
-  ));
+  );
 
-  return createNavigationContainer(navigator, containerConfig);
+  return createNavigationContainer(navigator);
 };
 
 export default DrawerNavigator;
